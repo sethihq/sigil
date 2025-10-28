@@ -1,4 +1,4 @@
-import { Zap, Download, Clipboard, Flower2, Sparkles, Palette, RotateCw, BookmarkCheck } from 'lucide-react';
+import { Zap, Clipboard, Flower2, Sparkles, Palette, RotateCw, BookmarkCheck } from 'lucide-react';
 import { Slider } from './ui/slider';
 import { Switch } from './ui/switch';
 import { Button } from './ui/button';
@@ -13,7 +13,6 @@ import { PatternPreset } from '../lib/presets';
 interface PatternControlsProps {
   settings: MandalaSettings;
   onSettingsChange: (settings: Partial<MandalaSettings>) => void;
-  onExport: (format: 'svg' | 'png') => void;
   onRandomize: () => void;
   onCopyToFigma: () => void;
   presets: PatternPreset[];
@@ -21,16 +20,12 @@ interface PatternControlsProps {
 }
 
 const PATTERN_TYPES: { value: PatternType; label: string; description: string }[] = [
-  { value: 'traditional', label: 'Traditional Mandala', description: 'Mixed Indian motifs' },
-  { value: 'lotus', label: 'Lotus Petals', description: 'Sacred flower patterns' },
-  { value: 'paisley', label: 'Paisley Boteh', description: 'Persian teardrop' },
-  { value: 'rangoli', label: 'Rangoli Kolam', description: 'Floor art patterns' },
-  { value: 'mehndi', label: 'Mehndi Henna', description: 'Henna-style designs' },
-  { value: 'geometric', label: 'Geometric Temple', description: 'Structural patterns' },
-  { value: 'yantra', label: 'Sri Yantra', description: 'Sacred geometry' },
-  { value: 'kolam', label: 'Tamil Kolam', description: 'Dot-grid patterns' },
-  { value: 'peacock', label: 'Peacock Majesty', description: 'Feather & eye motifs' },
-  { value: 'temple', label: 'Temple Tower', description: 'Gopuram architecture' },
+  { value: 'traditional', label: 'Traditional', description: 'Mixed Indian motifs' },
+  { value: 'lotus', label: 'Lotus', description: 'Sacred flower patterns' },
+  { value: 'paisley', label: 'Paisley', description: 'Persian teardrop' },
+  { value: 'rangoli', label: 'Rangoli', description: 'Floor art patterns' },
+  { value: 'mehndi', label: 'Mehndi', description: 'Henna-style designs' },
+  { value: 'peacock', label: 'Peacock', description: 'Feather & eye motifs' },
 ];
 
 const STROKE_DASH_TYPES: { value: StrokeDashType; label: string }[] = [
@@ -55,7 +50,7 @@ const COLOR_PRESETS = [
   { name: 'Silver Moon', stroke: '#e5e7eb', bg: '#0a0a0f' },
 ];
 
-export function PatternControls({ settings, onSettingsChange, onExport, onRandomize, onCopyToFigma, presets, onLoadPreset }: PatternControlsProps) {
+export function PatternControls({ settings, onSettingsChange, onRandomize, onCopyToFigma, presets, onLoadPreset }: PatternControlsProps) {
   const { toast } = useToast();
 
   const handleCopyWithToast = () => {
@@ -68,38 +63,38 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
 
   const showPetalControls = settings.patternType === 'lotus' || settings.patternType === 'traditional';
   const showDetailControls = settings.patternType === 'mehndi' || settings.patternType === 'traditional';
-  const showOrnamentControls = settings.patternType !== 'geometric';
+  const showOrnamentControls = true;
 
   return (
-    <div className="w-80 bg-[#2a2a2a] border-r border-[#3a3a3a] h-screen overflow-y-auto p-4 space-y-4">
-      <div className="mb-6">
-        <h1 className="text-xl font-mono text-white mb-1 tracking-tight">MANDALA</h1>
-        <p className="text-xs text-neutral-500 font-mono">PATTERN BUILDER</p>
+    <div className="w-96 bg-[#1a1a1a] border-l border-[#2a2a2a] h-screen overflow-y-auto p-6 space-y-6">
+      <div className="mb-4">
+        <h1 className="text-2xl font-semibold text-white mb-1 tracking-tight">Pattern Studio</h1>
+        <p className="text-sm text-neutral-400">Create Indian mandala patterns</p>
       </div>
 
-      <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-3">
         <Button
-          className="w-full bg-[#3a3a3a] hover:bg-[#4a4a4a] text-white border border-[#4a4a4a] font-mono text-xs"
+          className="bg-white hover:bg-neutral-100 text-black font-medium text-sm h-11 shadow-sm"
           onClick={onRandomize}
         >
           <Zap className="w-4 h-4 mr-2" />
-          RANDOMIZE (G)
+          Randomize
         </Button>
         <Button
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-mono text-xs"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm h-11"
           onClick={handleCopyWithToast}
         >
           <Clipboard className="w-4 h-4 mr-2" />
-          COPY TO FIGMA (C)
+          Copy SVG
         </Button>
       </div>
 
-      <Separator className="bg-[#3a3a3a]" />
+      <Separator className="bg-[#2a2a2a]" />
 
-      <Card className="bg-[#333333] border-[#3a3a3a] p-4 space-y-3">
-        <div className="flex items-center gap-2 mb-3">
+      <Card className="bg-[#151515] border-[#2a2a2a] p-5 space-y-4">
+        <div className="flex items-center gap-2">
           <BookmarkCheck className="w-4 h-4 text-neutral-400" />
-          <h3 className="text-sm font-mono text-neutral-300 uppercase">Quick Presets</h3>
+          <h3 className="text-sm font-semibold text-white">Quick Presets</h3>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
@@ -119,10 +114,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
 
       <Separator className="bg-[#3a3a3a]" />
 
-      <Card className="bg-[#333333] border-[#3a3a3a] p-4 space-y-3">
-        <div className="flex items-center gap-2 mb-3">
+      <Card className="bg-[#151515] border-[#2a2a2a] p-5 space-y-4">
+        <div className="flex items-center gap-2">
           <Flower2 className="w-4 h-4 text-neutral-400" />
-          <h3 className="text-sm font-mono text-neutral-300 uppercase">Pattern Type</h3>
+          <h3 className="text-sm font-semibold text-white">Pattern Type</h3>
         </div>
 
         <div className="grid grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
@@ -145,15 +140,18 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
 
       <Separator className="bg-[#3a3a3a]" />
 
-      <Card className="bg-[#333333] border-[#3a3a3a] p-4 space-y-4">
-        <div className="flex items-center gap-2 mb-3">
+      <Card className="bg-[#151515] border-[#2a2a2a] p-5 space-y-4">
+        <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-neutral-400" />
-          <h3 className="text-sm font-mono text-neutral-300 uppercase">Basic Settings</h3>
+          <h3 className="text-sm font-semibold text-white">Basic Settings</h3>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <Label className="text-xs text-neutral-400 font-mono mb-2 block">SEGMENTS: {settings.segments}</Label>
+            <div className="flex justify-between items-center mb-3">
+              <Label className="text-sm text-neutral-300 font-medium">Segments</Label>
+              <span className="text-sm text-neutral-400 font-mono">{settings.segments}</span>
+            </div>
             <Slider
               value={[settings.segments]}
               onValueChange={([v]) => onSettingsChange({ segments: v })}
@@ -165,7 +163,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
           </div>
 
           <div>
-            <Label className="text-xs text-neutral-400 font-mono mb-2 block">RINGS: {settings.rings}</Label>
+            <div className="flex justify-between items-center mb-3">
+              <Label className="text-sm text-neutral-300 font-medium">Rings</Label>
+              <span className="text-sm text-neutral-400 font-mono">{settings.rings}</span>
+            </div>
             <Slider
               value={[settings.rings]}
               onValueChange={([v]) => onSettingsChange({ rings: v })}
@@ -177,7 +178,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
           </div>
 
           <div>
-            <Label className="text-xs text-neutral-400 font-mono mb-2 block">RADIUS: {settings.radius}</Label>
+            <div className="flex justify-between items-center mb-3">
+              <Label className="text-sm text-neutral-300 font-medium">Radius</Label>
+              <span className="text-sm text-neutral-400 font-mono">{settings.radius}</span>
+            </div>
             <Slider
               value={[settings.radius]}
               onValueChange={([v]) => onSettingsChange({ radius: v })}
@@ -189,7 +193,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
           </div>
 
           <div>
-            <Label className="text-xs text-neutral-400 font-mono mb-2 block">LINE WEIGHT: {settings.lineWeight}</Label>
+            <div className="flex justify-between items-center mb-3">
+              <Label className="text-sm text-neutral-300 font-medium">Line Weight</Label>
+              <span className="text-sm text-neutral-400 font-mono">{settings.lineWeight}</span>
+            </div>
             <Slider
               value={[settings.lineWeight]}
               onValueChange={([v]) => onSettingsChange({ lineWeight: v })}
@@ -202,10 +209,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
         </div>
       </Card>
 
-      <Card className="bg-[#333333] border-[#3a3a3a] p-4 space-y-4">
-        <div className="flex items-center gap-2 mb-3">
+      <Card className="bg-[#151515] border-[#2a2a2a] p-5 space-y-4">
+        <div className="flex items-center gap-2">
           <RotateCw className="w-4 h-4 text-neutral-400" />
-          <h3 className="text-sm font-mono text-neutral-300 uppercase">Geometric Controls</h3>
+          <h3 className="text-sm font-semibold text-white">Geometric Controls</h3>
         </div>
 
         <div className="space-y-4">
@@ -262,10 +269,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
       </Card>
 
       {(showPetalControls || showDetailControls || showOrnamentControls) && (
-        <Card className="bg-[#333333] border-[#3a3a3a] p-4 space-y-4">
-          <div className="flex items-center gap-2 mb-3">
+        <Card className="bg-[#151515] border-[#2a2a2a] p-5 space-y-4">
+          <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-neutral-400" />
-            <h3 className="text-sm font-mono text-neutral-300 uppercase">Pattern Details</h3>
+            <h3 className="text-sm font-semibold text-white">Pattern Details</h3>
           </div>
 
           <div className="space-y-4">
@@ -320,10 +327,10 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
         </Card>
       )}
 
-      <Card className="bg-[#333333] border-[#3a3a3a] p-4 space-y-4">
-        <div className="flex items-center gap-2 mb-3">
+      <Card className="bg-[#151515] border-[#2a2a2a] p-5 space-y-4">
+        <div className="flex items-center gap-2">
           <Palette className="w-4 h-4 text-neutral-400" />
-          <h3 className="text-sm font-mono text-neutral-300 uppercase">Colors & Style</h3>
+          <h3 className="text-sm font-semibold text-white">Colors & Style</h3>
         </div>
 
         <div className="space-y-4">
@@ -414,24 +421,6 @@ export function PatternControls({ settings, onSettingsChange, onExport, onRandom
         </div>
       </Card>
 
-      <Separator className="bg-[#3a3a3a]" />
-
-      <div className="space-y-2">
-        <Button
-          className="w-full bg-[#3a3a3a] hover:bg-[#4a4a4a] text-white border border-[#4a4a4a] font-mono text-xs"
-          onClick={() => onExport('svg')}
-        >
-          <Download className="w-4 h-4 mr-2" />
-          DOWNLOAD SVG
-        </Button>
-        <Button
-          className="w-full bg-[#3a3a3a] hover:bg-[#4a4a4a] text-white border border-[#4a4a4a] font-mono text-xs"
-          onClick={() => onExport('png')}
-        >
-          <Download className="w-4 h-4 mr-2" />
-          DOWNLOAD PNG
-        </Button>
-      </div>
     </div>
   );
 }

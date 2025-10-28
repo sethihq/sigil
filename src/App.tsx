@@ -87,62 +87,19 @@ function App() {
     });
   };
 
-  const handleExport = (format: 'svg' | 'png') => {
-    if (format === 'svg') {
-      const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `mandala-${Date.now()}.svg`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } else {
-      const canvas = document.createElement('canvas');
-      canvas.width = 2400;
-      canvas.height = 2400;
-      const ctx = canvas.getContext('2d');
-
-      if (!ctx) return;
-
-      const img = new Image();
-      const svgBlob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-
-      img.onload = () => {
-        ctx.fillStyle = '#0a0a0a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const pngUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = pngUrl;
-            a.download = `mandala-${Date.now()}.png`;
-            a.click();
-            URL.revokeObjectURL(pngUrl);
-          }
-        });
-        URL.revokeObjectURL(url);
-      };
-
-      img.src = url;
-    }
-  };
 
   return (
     <>
-      <div className="flex h-screen bg-[#1a1a1a] overflow-hidden">
+      <div className="flex h-screen bg-[#0a0a0a] overflow-hidden">
+        <PatternCanvas svgContent={svgContent} />
         <PatternControls
           settings={settings}
           onSettingsChange={handleSettingsChange}
-          onExport={handleExport}
           onRandomize={handleRandomize}
           onCopyToFigma={handleCopyToFigma}
           presets={PATTERN_PRESETS}
           onLoadPreset={(preset) => setSettings({ ...preset, seed: Math.random() * 10000 })}
         />
-        <PatternCanvas svgContent={svgContent} />
       </div>
       <Toaster />
     </>

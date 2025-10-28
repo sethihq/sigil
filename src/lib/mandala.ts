@@ -1,4 +1,4 @@
-export type PatternType = 'traditional' | 'paisley' | 'rangoli' | 'mehndi' | 'lotus' | 'geometric' | 'yantra' | 'kolam' | 'peacock' | 'temple';
+export type PatternType = 'traditional' | 'paisley' | 'rangoli' | 'mehndi' | 'lotus' | 'peacock';
 
 export type StrokeDashType = 'solid' | 'dashed' | 'dotted' | 'dashdot';
 
@@ -26,13 +26,10 @@ export interface MandalaSettings {
 import {
   Point,
   polarToCartesian as utilPolarToCartesian,
-  GOLDEN_RATIO,
-  calculateSacredProportions
+  GOLDEN_RATIO
 } from './mathUtils';
 import {
-  generatePeacockMotif,
-  generateKalash,
-  generateInterlacedTriangles
+  generatePeacockMotif
 } from './motifs';
 
 export class MandalaGenerator {
@@ -140,37 +137,6 @@ export class MandalaGenerator {
     return paths;
   }
 
-  private generateGeometricPattern(centerX: number, centerY: number, radius: number, ring: number): string[] {
-    const paths: string[] = [];
-    const angleStep = 360 / this.settings.segments;
-    const innerRatio = 0.75 + (this.settings.ornamentComplexity * 0.15);
-
-    for (let segment = 0; segment < this.settings.segments; segment++) {
-      const angle = segment * angleStep + this.settings.rotationOffset;
-      const nextAngle = (segment + 1) * angleStep + this.settings.rotationOffset;
-
-      const outer1 = this.polarToCartesian(centerX, centerY, radius, angle);
-      const outer2 = this.polarToCartesian(centerX, centerY, radius, nextAngle);
-      const inner1 = this.polarToCartesian(centerX, centerY, radius * innerRatio, angle);
-      const inner2 = this.polarToCartesian(centerX, centerY, radius * innerRatio, nextAngle);
-
-      if (ring % 2 === 0) {
-        paths.push(`M ${outer1.x},${outer1.y} L ${outer2.x},${outer2.y} L ${inner2.x},${inner2.y} L ${inner1.x},${inner1.y} Z`);
-      } else {
-        paths.push(`M ${outer1.x},${outer1.y} L ${inner1.x},${inner1.y}`);
-        paths.push(`M ${outer1.x},${outer1.y} L ${outer2.x},${outer2.y}`);
-      }
-
-      if (this.settings.detailDensity > 0.4 && ring % 3 === 0) {
-        const midAngle = (angle + nextAngle) / 2;
-        const midOuter = this.polarToCartesian(centerX, centerY, radius * 1.05, midAngle);
-        const midInner = this.polarToCartesian(centerX, centerY, radius * innerRatio * 0.95, midAngle);
-        paths.push(`M ${midInner.x},${midInner.y} L ${midOuter.x},${midOuter.y}`);
-      }
-    }
-
-    return paths;
-  }
 
   generate(width: number, height: number): string {
     const centerX = width / 2;
@@ -233,87 +199,11 @@ export class MandalaGenerator {
           }
           break;
 
-        case 'geometric':
-          paths.push(...this.generateGeometricPattern(centerX, centerY, ringRadius, ring));
-          break;
-
-        case 'yantra':
-          if (ring === Math.floor(this.settings.rings / 2)) {
-            paths.push(...generateInterlacedTriangles(centerX, centerY, ringRadius * 0.8, 9));
-          } else {
-            const proportions = calculateSacredProportions(ringRadius);
-            paths.push(`M ${centerX},${centerY} m -${proportions.outerCircle},0 a ${proportions.outerCircle},${proportions.outerCircle} 0 1,0 ${proportions.outerCircle * 2},0 a ${proportions.outerCircle},${proportions.outerCircle} 0 1,0 -${proportions.outerCircle * 2},0`);
-
-            if (this.settings.detailDensity > 0.3) {
-              for (let segment = 0; segment < this.settings.segments; segment++) {
-                const angle = segment * angleStep + ringAngleOffset;
-                const p = this.polarToCartesian(centerX, centerY, ringRadius, angle);
-                paths.push(`M ${centerX},${centerY} L ${p.x},${p.y}`);
-              }
-            }
-          }
-          break;
-
-        case 'kolam':
-          const dotCount = this.settings.segments;
-          const dotSpacing = (ringRadius * 2) / (dotCount + 1);
-
-          for (let i = 0; i < dotCount; i++) {
-            for (let j = 0; j < dotCount; j++) {
-              const dotX = centerX - ringRadius + (i + 1) * dotSpacing;
-              const dotY = centerY - ringRadius + (j + 1) * dotSpacing;
-              const dotRadius = this.settings.lineWeight * 1.5;
-              paths.push(`M ${dotX},${dotY} m -${dotRadius},0 a ${dotRadius},${dotRadius} 0 1,0 ${dotRadius * 2},0 a ${dotRadius},${dotRadius} 0 1,0 -${dotRadius * 2},0`);
-            }
-          }
-
-          if (ring % 2 === 0) {
-            const loopPoints = Math.floor(dotCount * 1.5);
-            for (let i = 0; i < loopPoints; i++) {
-              const loopAngle = (i * 360) / loopPoints + this.settings.rotationOffset;
-              const loopRadius = ringRadius * (0.7 + Math.sin(i * 0.5) * 0.2);
-              const p1 = this.polarToCartesian(centerX, centerY, loopRadius, loopAngle);
-              const p2 = this.polarToCartesian(centerX, centerY, loopRadius, loopAngle + 360 / loopPoints);
-              const control = this.polarToCartesian(centerX, centerY, loopRadius * 1.1, loopAngle + 180 / loopPoints);
-
-              if (i === 0) {
-                paths.push(`M ${p1.x},${p1.y} Q ${control.x},${control.y} ${p2.x},${p2.y}`);
-              }
-            }
-          }
-          break;
-
         case 'peacock':
           for (let segment = 0; segment < this.settings.segments; segment++) {
             const angle = segment * angleStep + ringAngleOffset;
             const peacockPaths = generatePeacockMotif(centerX, centerY, ringRadius, angle, this.settings.ornamentComplexity);
             paths.push(...peacockPaths);
-          }
-          break;
-
-        case 'temple':
-          const towerLevels = Math.floor(3 + this.settings.ornamentComplexity * 4);
-          for (let level = 0; level < towerLevels; level++) {
-            const levelRadius = ringRadius * (1 - level * 0.1);
-            const levelSegments = Math.max(4, this.settings.segments - level * 2);
-            const levelAngleStep = 360 / levelSegments;
-
-            for (let segment = 0; segment < levelSegments; segment++) {
-              const angle = segment * levelAngleStep + ringAngleOffset + (level * 7.5);
-              const nextAngle = (segment + 1) * levelAngleStep + ringAngleOffset + (level * 7.5);
-
-              const outer1 = this.polarToCartesian(centerX, centerY, levelRadius, angle);
-              const outer2 = this.polarToCartesian(centerX, centerY, levelRadius, nextAngle);
-              const inner1 = this.polarToCartesian(centerX, centerY, levelRadius * 0.85, angle);
-              const inner2 = this.polarToCartesian(centerX, centerY, levelRadius * 0.85, nextAngle);
-
-              paths.push(`M ${outer1.x},${outer1.y} L ${outer2.x},${outer2.y} L ${inner2.x},${inner2.y} L ${inner1.x},${inner1.y} Z`);
-
-              if (this.settings.detailDensity > 0.5 && level % 2 === 0) {
-                const kalashPaths = generateKalash(centerX, centerY, levelRadius * 1.1, angle + levelAngleStep / 2);
-                paths.push(...kalashPaths);
-              }
-            }
           }
           break;
 
@@ -379,7 +269,7 @@ export class MandalaGenerator {
     paths.forEach((path, index) => {
       const dashAttr = strokeDashArray !== 'none' ? ` stroke-dasharray="${strokeDashArray}"` : '';
       const variableWidth = this.settings.lineWeight * (1 + (Math.sin(this.settings.seed + index) * 0.1));
-      const strokeWidth = this.settings.patternType === 'mehndi' || this.settings.patternType === 'kolam' ? variableWidth : this.settings.lineWeight;
+      const strokeWidth = this.settings.patternType === 'mehndi' ? variableWidth : this.settings.lineWeight;
 
       svg += `<path d="${path}" stroke="${this.settings.strokeColor}" stroke-width="${strokeWidth}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="${this.settings.strokeOpacity}"${dashAttr}${filterAttr} />`;
     });
