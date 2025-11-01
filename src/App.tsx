@@ -8,7 +8,6 @@ import { AsciiControls, AsciiSettings } from './components/AsciiControls';
 import { Button } from './components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from './components/ui/tabs';
 import { ScrollArea } from './components/ui/scroll-area';
-import { Zap, Clipboard, Download } from 'lucide-react';
 
 const DEFAULT_SETTINGS: MandalaSettings = {
   patternType: 'traditional',
