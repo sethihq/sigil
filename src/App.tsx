@@ -385,7 +385,7 @@ function App() {
             {/* Header */}
             <div className="border-b border-white/[0.06] px-5 py-3">
               <h1 className="text-xl font-bold uppercase tracking-[0.15em] text-white">
-                SIGIL
+                SYGIL
               </h1>
               <a
                 href="https://x.com/sethihq"
