@@ -32,15 +32,6 @@ const DEFAULT_SETTINGS: MandalaSettings = {
 
 const ASCII_FONT_FAMILY = "'JetBrains Mono', 'SFMono-Regular', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', monospace";
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 // Component to display ASCII output with auto-scaling to fit container
 function AsciiOutputDisplay({ output, isGenerating }: { output: string; isGenerating: boolean }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
