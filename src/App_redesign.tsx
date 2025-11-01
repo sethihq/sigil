@@ -341,15 +341,13 @@ function App() {
     }
   };
 
-  const handleAsciiDownload = () => {
+  const handleAsciiCopyText = async () => {
     if (!asciiOutput) return;
-    const blob = new Blob([asciiOutput], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = `mandala-ascii-${Date.now()}.txt`;
-    anchor.click();
-    URL.revokeObjectURL(url);
+    try {
+      await navigator.clipboard.writeText(asciiOutput);
+    } catch (error) {
+      console.error('Failed to copy ASCII text', error);
+    }
   };
 
   return (
@@ -408,7 +406,7 @@ function App() {
                       <Button size="sm" variant="outline" onClick={handleAsciiCopy} disabled={!asciiOutput}>
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <Button size="sm" variant="outline" onClick={handleAsciiDownload} disabled={!asciiOutput}>
+                      <Button size="sm" variant="outline" onClick={handleAsciiCopyText} disabled={!asciiOutput}>
                         <Download className="h-4 w-4" />
                       </Button>
                     </>
@@ -459,7 +457,7 @@ function App() {
                       onSettingsChange={handleAsciiSettingsChange}
                       onGenerate={handleGenerateAscii}
                       onCopy={handleAsciiCopy}
-                      onDownload={handleAsciiDownload}
+                      onCopyText={handleAsciiCopyText}
                       isGenerating={isAsciiGenerating}
                       hasOutput={asciiOutput.length > 0}
                     />

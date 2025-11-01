@@ -30,26 +30,6 @@ const DEFAULT_SETTINGS: MandalaSettings = {
   seed: Math.random() * 10000
 };
 
-type AsciiSvgOptions = {
-  fontSize?: number;
-  lineHeight?: number;
-  padding?: number;
-  charWidth?: number;
-  foreground?: string;
-  background?: string;
-  viewportPadding?: number;
-};
-
-const ASCII_DEFAULTS = {
-  fontSize: 14,
-  lineHeight: 16,
-  padding: 18,
-  charWidth: 8,
-  foreground: '#e2e8f0',
-  background: '#0a0a0a',
-  viewportPadding: 24,
-} satisfies Required<AsciiSvgOptions>;
-
 const ASCII_FONT_FAMILY = "'JetBrains Mono', 'SFMono-Regular', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', monospace";
 
 function escapeHtml(value: string): string {
@@ -128,41 +108,6 @@ function AsciiOutputDisplay({ output, isGenerating }: { output: string; isGenera
       </pre>
     </div>
   );
-}
-
-function createAsciiSvg(rows: string[], options: AsciiSvgOptions = {}): string {
-  if (rows.length === 0) return '';
-
-  const {
-    fontSize,
-    lineHeight,
-    padding,
-    charWidth,
-    foreground,
-    background,
-    viewportPadding,
-  } = { ...ASCII_DEFAULTS, ...options };
-
-  const maxColumns = rows.reduce((max, row) => Math.max(max, row.length), 0);
-  const contentWidth = Math.max(1, maxColumns * charWidth + padding * 2);
-  const contentHeight = Math.max(1, rows.length * lineHeight + padding * 2);
-  const totalWidth = contentWidth + viewportPadding * 2;
-  const totalHeight = contentHeight + viewportPadding * 2;
-
-  // Create SVG text elements for each row (editable in design tools)
-  const textElements = rows.map((row, index) => {
-    const y = viewportPadding + padding + (index + 1) * lineHeight;
-    const x = viewportPadding + padding;
-    // Escape XML special characters for SVG
-    const escapedRow = escapeHtml(row);
-    return `  <text x="${x}" y="${y}" font-family="${ASCII_FONT_FAMILY}" font-size="${fontSize}" fill="${foreground}" xml:space="preserve">${escapedRow}</text>`;
-  }).join('\n');
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="${totalHeight}" viewBox="0 0 ${totalWidth} ${totalHeight}">
-  <rect width="100%" height="100%" fill="${background}" />
-${textElements}
-</svg>`;
 }
 
 function App() {
