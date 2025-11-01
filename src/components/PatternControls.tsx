@@ -65,7 +65,7 @@ export function PatternControls({
               key={type.value}
               onClick={() => onSettingsChange({ patternType: type.value })}
               className={cn(
-                'border p-2.5 text-left transition-all',
+                'rounded-none border p-2.5 text-left transition-all',
                 settings.patternType === type.value
                   ? 'border-white bg-white text-black'
                   : 'border-white/10 hover:border-white/20 hover:bg-white/5'
@@ -206,12 +206,12 @@ export function PatternControls({
             <button
               key={preset.name}
               onClick={() => onSettingsChange({ strokeColor: preset.stroke, backgroundColor: preset.bg })}
-              className="group relative h-9 border border-white/10 transition-all hover:border-white/20"
+              className="group relative h-9 rounded-none border border-white/10 transition-all hover:border-white/20"
               title={preset.name}
             >
-              <div className="absolute inset-0" style={{ backgroundColor: preset.bg }} />
+              <div className="absolute inset-0 rounded-none" style={{ backgroundColor: preset.bg }} />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-3 w-3 rounded-full border-2" style={{ borderColor: preset.stroke }} />
+                <div className="h-3 w-3 rounded-none border-2" style={{ borderColor: preset.stroke }} />
               </div>
             </button>
           ))}
@@ -246,16 +246,16 @@ export function PatternControls({
 
         <div className="space-y-2">
           <Label className="text-xs font-medium uppercase tracking-wider text-white/40">Stroke Style</Label>
-          <div className="flex gap-px bg-white/10 p-px">
+          <div className="grid grid-cols-4 gap-1.5">
             {STROKE_DASH_TYPES.map((dash) => (
               <button
                 key={dash.value}
                 onClick={() => onSettingsChange({ strokeDash: dash.value })}
                 className={cn(
-                  'flex-1 px-2 py-1.5 text-[9px] font-medium uppercase tracking-wider transition-all',
+                  'rounded-none border px-2 py-1.5 text-[9px] font-medium uppercase tracking-wider transition-all',
                   settings.strokeDash === dash.value
-                    ? 'bg-white text-black'
-                    : 'bg-card hover:bg-white/5'
+                    ? 'border-white bg-white text-black'
+                    : 'border-white/10 hover:border-white/20 hover:bg-white/5'
                 )}
               >
                 {dash.label}

@@ -43,6 +43,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 #root {
@@ -128,5 +129,35 @@ button:focus-visible {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Prevent text selection on labels and control text */
+label,
+label *,
+span.text-xs,
+span.text-foreground,
+.space-y-1 *,
+.space-y-2 *,
+.space-y-3 *,
+[class*="uppercase"],
+[class*="tracking-wider"] {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+/* Ensure proper scrolling on mobile */
+@media (max-width: 1024px) {
+  html {
+    overflow-x: hidden;
   }
 }

@@ -17,7 +17,7 @@ interface AsciiControlsProps {
   onSettingsChange: (settings: Partial<AsciiSettings>) => void;
   onGenerate: () => void;
   onCopy: () => void;
-  onDownload: () => void;
+  onCopyText: () => void;
   isGenerating: boolean;
   hasOutput: boolean;
   className?: string;
