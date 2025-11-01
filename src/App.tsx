@@ -511,13 +511,10 @@ function App() {
               href="https://x.com/sethihq"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative block border-b border-white/[0.06] px-3 sm:px-5 py-4 sm:py-6 min-h-[80px] sm:min-h-[100px] bg-contain bg-left bg-no-repeat transition-opacity hover:opacity-90"
+              className="block border-b border-white/[0.06] min-h-[80px] sm:min-h-[100px] bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-90"
               style={{ backgroundImage: 'url(/banner.png)' }}
-            >
-              <span className="absolute bottom-2 right-3 sm:bottom-3 sm:right-5 text-[10px] sm:text-xs uppercase tracking-wider text-white/90 font-medium">
-                BY SETHIHQ
-              </span>
-            </a>
+              aria-label="Visit SETHIHQ on Twitter"
+            />
 
             {/* Action Buttons */}
             <div className="space-y-1.5 border-b border-white/[0.06] px-3 sm:px-5 py-2 sm:py-3">
