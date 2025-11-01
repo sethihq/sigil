@@ -455,7 +455,7 @@ function App() {
   return (
     <>
       <div className="flex h-screen w-full items-center justify-center p-2 sm:p-4 md:p-8 lg:p-12 xl:p-16">
-        <div className="flex h-full w-full flex-col lg:flex-row overflow-hidden border-2 sm:border-4 lg:border-[6px] border-white/20 shadow-2xl shadow-black/50">
+        <div className="flex h-full w-full max-w-[1440px] flex-col lg:flex-row overflow-hidden border-2 sm:border-4 lg:border-[6px] border-white/20 shadow-2xl shadow-black/50">
           {/* Left Side - Canvas Area */}
           <main className="flex w-full lg:w-auto flex-col overflow-hidden flex-1"
             style={{
