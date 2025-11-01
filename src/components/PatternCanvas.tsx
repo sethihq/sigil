@@ -2,23 +2,30 @@ import { useEffect, useRef } from 'react';
 
 interface PatternCanvasProps {
   svgContent: string;
+  className?: string;
 }
 
-export function PatternCanvas({ svgContent }: PatternCanvasProps) {
+export function PatternCanvas({ svgContent, className }: PatternCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.innerHTML = svgContent;
+
+      const svg = containerRef.current.querySelector('svg');
+      if (svg) {
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+        svg.style.width = '100%';
+        svg.style.height = '100%';
+        svg.style.display = 'block';
+      }
     }
   }, [svgContent]);
 
   return (
-    <div className="flex-1 flex items-center justify-center bg-[#1a1a1a] p-8">
-      <div
-        ref={containerRef}
-        className="bg-[#0a0a0a] rounded-lg shadow-2xl border border-[#2a2a2a]"
-      />
+    <div className={`flex h-full w-full ${className ?? ''}`}>
+      <div ref={containerRef} className="h-full w-full overflow-hidden" />
     </div>
   );
 }
