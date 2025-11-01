@@ -507,21 +507,17 @@ function App() {
           {/* Right Sidebar - Settings Panel */}
           <aside className="flex w-full lg:max-w-[340px] flex-col border-t lg:border-t-0 lg:border-l border-white/[0.06] bg-card max-h-[40vh] lg:max-h-none">
             {/* Header */}
-            <div className="border-b border-white/[0.06] px-3 sm:px-5 py-2 sm:py-3 flex items-center min-h-[60px] sm:min-h-[72px]">
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold uppercase tracking-[0.15em] text-white">
-                  SYGIL
-                </h1>
-                <a
-                  href="https://x.com/sethihq"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-0.5 block text-[10px] sm:text-xs uppercase tracking-wider text-white/40 transition-colors hover:text-white/60"
-                >
-                  BY SETHIHQ
-                </a>
-              </div>
-            </div>
+            <a
+              href="https://x.com/sethihq"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block border-b border-white/[0.06] px-3 sm:px-5 py-4 sm:py-6 flex items-center min-h-[80px] sm:min-h-[100px] bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-90"
+              style={{ backgroundImage: 'url(/banner.png)' }}
+            >
+              <span className="text-xs sm:text-sm uppercase tracking-wider text-white/90 font-medium">
+                BY SETHIHQ
+              </span>
+            </a>
 
             {/* Action Buttons */}
             <div className="space-y-1.5 border-b border-white/[0.06] px-3 sm:px-5 py-2 sm:py-3">
