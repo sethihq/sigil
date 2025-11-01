@@ -8,7 +8,6 @@ import { AsciiControls, AsciiSettings } from './components/AsciiControls';
 import { Button } from './components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from './components/ui/tabs';
 import { ScrollArea } from './components/ui/scroll-area';
-import { Badge } from './components/ui/badge';
 import { Zap, Clipboard, Download } from 'lucide-react';
 
 const DEFAULT_SETTINGS: MandalaSettings = {
@@ -31,23 +30,6 @@ const DEFAULT_SETTINGS: MandalaSettings = {
   strokeDash: 'solid',
   seed: Math.random() * 10000
 };
-
-const PHASE_META = {
-  pattern: {
-    label: 'Phase 1',
-    badge: 'Pattern Synthesis',
-    heading: 'Mandala Canvas',
-    description: 'Shape sacred geometry, motifs, and luminance before exporting your hero mandala.',
-    badgeTone: 'text-emerald-200'
-  },
-  ascii: {
-    label: 'Phase 2',
-    badge: 'ASCII Conversion',
-    heading: 'ASCII Output',
-    description: 'Translate the latest mandala into glyph textures ready for terminals, merch, or moodboards.',
-    badgeTone: 'text-blue-200'
-  }
-} as const;
 
 type AsciiSvgOptions = {
   fontSize?: number;
@@ -394,43 +376,6 @@ function App() {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [activePhase, handleCopyToFigma, handleRandomize, handleGenerateAscii, handleAsciiCopy, handleAsciiDownload, handleExport]);
-
-  const patternActionButtons = (
-    <>
-      <Button
-        size="sm"
-        variant="outline"
-        className="border-white/15 bg-white/[0.02] text-slate-200 transition-colors hover:bg-white/[0.06]"
-        onClick={handleRandomize}
-      >
-        <Zap className="mr-2 h-4 w-4" /> Randomize
-      </Button>
-      <Button
-        size="sm"
-        variant="outline"
-        className="border-white/15 bg-white/[0.02] text-slate-200 transition-colors hover:bg-white/[0.06]"
-        onClick={handleCopyToFigma}
-      >
-        <Clipboard className="mr-2 h-4 w-4" /> Copy SVG
-      </Button>
-      <Button
-        size="sm"
-        variant="outline"
-        className="border-white/15 bg-white/[0.02] text-slate-200 transition-colors hover:bg-white/[0.06]"
-        onClick={() => handleExport('svg')}
-      >
-        <Download className="mr-2 h-4 w-4" /> SVG
-      </Button>
-      <Button
-        size="sm"
-        variant="outline"
-        className="border-white/15 bg-white/[0.02] text-slate-200 transition-colors hover:bg-white/[0.06]"
-        onClick={() => handleExport('png')}
-      >
-        <Download className="mr-2 h-4 w-4" /> PNG
-      </Button>
-    </>
-  );
 
   return (
     <>

@@ -40,8 +40,6 @@ const COLOR_PRESETS = [
 export function PatternControls({
   settings,
   onSettingsChange,
-  presets,
-  onLoadPreset,
   className,
 }: PatternControlsProps) {
   const [showAdvanced, setShowAdvanced] = useState(true);

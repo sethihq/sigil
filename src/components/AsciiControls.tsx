@@ -3,8 +3,6 @@ import { Slider } from './ui/slider';
 import { Switch } from './ui/switch';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { Zap, Clipboard, Download } from 'lucide-react';
 
 export interface AsciiSettings {
   columns: number;
@@ -28,11 +26,6 @@ interface AsciiControlsProps {
 export function AsciiControls({
   settings,
   onSettingsChange,
-  onGenerate,
-  onCopy,
-  onDownload,
-  isGenerating,
-  hasOutput,
   className,
 }: AsciiControlsProps) {
   return (
