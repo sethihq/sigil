@@ -457,14 +457,20 @@ function App() {
       <div className="flex h-screen w-full items-center justify-center p-2 sm:p-4 md:p-8 lg:p-12 xl:p-16">
         <div className="flex h-full w-full flex-col lg:flex-row overflow-hidden border-2 sm:border-4 lg:border-[6px] border-white/20 shadow-2xl shadow-black/50">
           {/* Left Side - Canvas Area */}
-          <main className="flex w-full lg:w-auto flex-col overflow-hidden bg-black flex-1">
+          <main className="flex w-full lg:w-auto flex-col overflow-hidden flex-1"
+            style={{
+              backgroundImage: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+              backgroundColor: '#0a0a0a'
+            }}
+          >
             {/* Top Bar */}
-            <div className="flex items-center justify-start border-b border-white/[0.06] px-3 sm:px-5 py-2 sm:py-3 min-h-[60px] sm:min-h-[72px]">
+            <div className="flex items-center justify-start px-3 sm:px-5 py-2 sm:py-3 min-h-[60px] sm:min-h-[72px] bg-transparent">
               <Tabs
                 value={activePhase}
                 onValueChange={(phase) => setActivePhase(phase as 'pattern' | 'ascii')}
               >
-                <TabsList className="h-8 sm:h-9 border border-white/10 bg-transparent p-1">
+                <TabsList className="h-8 sm:h-9 border border-white/10 bg-black p-1">
                   <TabsTrigger
                     value="pattern"
                     className="h-6 sm:h-7 bg-transparent px-4 sm:px-6 text-[10px] sm:text-xs font-medium uppercase tracking-wider transition-all data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
